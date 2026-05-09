@@ -13,11 +13,13 @@ st.set_page_config(page_title="GPA Predictor - NCKH", layout="wide")
 # ==========================================
 # ĐỌC DỮ LIỆU ĐÃ LÀM SẠCH
 # ==========================================
-@st.cache_data # Lưu vào bộ nhớ tạm để tăng tốc độ tải trang
+@st.cache_data 
 def load_data():
     try:
-        # Đọc trực tiếp file Cleaned_Data.csv trong cùng thư mục
         df = pd.read_csv("Cleaned_Data.csv")
+        # Xóa cột index bị thừa nếu có trong quá trình lưu file CSV
+        if 'Unnamed: 0' in df.columns:
+            df = df.drop(columns=['Unnamed: 0'])
         return df
     except FileNotFoundError:
         return None
@@ -90,7 +92,12 @@ if data is not None:
         }])
 
         if st.button("Dự đoán GPA ngay"):
+            # CHỖ FIX CHÍNH: Ép thứ tự cột của input_features khớp chính xác 100% với model
+            input_features = input_features.reindex(columns=X.columns, fill_value=0)
+            
+            # Tiến hành dự đoán
             prediction = model.predict(input_features)[0]
+            
             # Giới hạn kết quả trong khoảng 0.0 - 4.0
             prediction = np.clip(prediction, 0.0, 4.0)
             
@@ -105,6 +112,5 @@ if data is not None:
                 st.warning("📚 Khá. Cần tập trung thêm vào các yếu tố có trọng số dương.")
             else:
                 st.error("⚠️ Trung bình/Yếu. Cần điều chỉnh lại thói quen học tập.")
-
 else:
     st.error("❌ Không tìm thấy file 'Cleaned_Data.csv'. Vui lòng đảm bảo file nằm cùng thư mục với app.py")
