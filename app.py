@@ -27,7 +27,7 @@ def load_data():
 data = load_data()
 
 # Giao diện chính
-st.title("🎓 Dự án 4: App dự đoán GPA sinh viên")
+st.title("🎓 GPA TECH 🤖")
 st.markdown("### Hệ thống phân tích thói quen học tập (Tập NCKH)")
 
 if data is not None:
