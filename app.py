@@ -28,7 +28,7 @@ data = load_data()
 
 # Giao diện chính
 st.title("🎓 GPA TECH 🤖")
-st.markdown("### Hệ thống phân tích thói quen học tập (Tập NCKH)")
+st.markdown("### Hệ thống phân tích thói quen học tập")
 
 if data is not None:
     # PHẦN 1: HUẤN LUYỆN MÔ HÌNH (Chạy ngầm ngay khi mở app)
